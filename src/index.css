@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.cdnfonts.com/css/opendyslexic');
 
@@ -126,22 +127,6 @@ html {
   }
   50% {
     transform: translateY(-5px);
-  }
-}
-
-/* Aurora animation */
-@keyframes aurora {
-  0% {
-    background-position: 0% 50%;
-    transform: scale(1);
-  }
-  50% {
-    background-position: 100% 50%;
-    transform: scale(1.1);
-  }
-  100% {
-    background-position: 0% 50%;
-    transform: scale(1);
   }
 }
 
