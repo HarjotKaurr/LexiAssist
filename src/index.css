@@ -1,0 +1,152 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.cdnfonts.com/css/opendyslexic');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 40% 98%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 252 100% 60%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 210 40% 96%;
+    --accent-foreground: 222 47% 11%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 252 100% 60%;
+
+    --radius: 1rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .glass {
+    @apply bg-white/80 backdrop-blur-lg border border-white/20 shadow-sm;
+  }
+
+  .dyslexic-text {
+    @apply font-dyslexic tracking-wide;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-md bg-secondary px-6 py-3 text-sm font-medium text-secondary-foreground shadow-sm transition-colors hover:bg-secondary/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .page-transition {
+    @apply animate-fade-in;
+  }
+
+  .section-padding {
+    @apply py-12 px-4 sm:px-6 md:py-16 md:px-8;
+  }
+  
+  .text-gradient-primary {
+    @apply bg-gradient-to-r from-primary via-primary/90 to-primary/80 bg-clip-text text-transparent;
+  }
+}
+
+/* Card animation transitions */
+.card-hover {
+  @apply transition-all duration-300 hover:translate-y-[-5px] hover:shadow-md;
+}
+
+.hover-scale {
+  @apply transition-transform duration-300 hover:scale-105;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+#root {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  text-align: center;
+}
+
+/* Game elements */
+.game-button {
+  @apply bg-white rounded-xl shadow-sm p-4 border border-primary/10 transition-all duration-200 hover:shadow-md hover:border-primary/30;
+}
+
+.game-card {
+  @apply bg-white rounded-xl shadow-sm border border-primary/10 overflow-hidden;
+}
+
+.progress-container {
+  @apply w-full bg-gray-200 rounded-full h-2;
+}
+
+.progress-bar {
+  @apply h-2 rounded-full bg-primary transition-all duration-300;
+}
+
+/* Animation utilities */
+.animate-bounce-light {
+  animation: bounce-light 2s infinite;
+}
+
+@keyframes bounce-light {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Dyslexia-friendly background options */
+.bg-dyslexia-cream {
+  background-color: #FEF7CD;
+}
+
+.bg-dyslexia-blue {
+  background-color: #D3E4FD;
+}
+
+.bg-dyslexia-green {
+  background-color: #F2FCE2;
+}
+
+.bg-dyslexia-peach {
+  background-color: #FDE1D3;
+}
+
+.bg-dyslexia-lavender {
+  background-color: #E5DEFF;
+}
