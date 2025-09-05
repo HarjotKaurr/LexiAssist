@@ -10,6 +10,16 @@ const Screening: React.FC = () => {
   const navigate = useNavigate();
   const [hasStarted, setHasStarted] = useState(false);
   
+  const mainContentStyle = {
+    display: 'flex',
+    flexDirection: 'column' as const,
+    alignItems: 'center',
+    width: '100%',
+    maxWidth: '1200px',
+    margin: '0 auto',
+    padding: '0 1rem'
+  };
+  
   const isLetterMatchCompleted = isTestCompleted('letterMatch');
   const isWordSpeedCompleted = isTestCompleted('wordSpeed');
   const isVisualFocusCompleted = isTestCompleted('visualFocus');
@@ -162,7 +172,7 @@ const Screening: React.FC = () => {
               </button>
             </div>
           ) : (
-            <div className="grid gap-6 animate-fade-in" style={{ animationDelay: '0.2s' }}>
+            <div className="grid gap-3 animate-fade-in" style={{ animationDelay: '0.2s' }}>
               <TestCard
                 title={content.tests.letterMatch.title}
                 description={content.tests.letterMatch.description}
@@ -230,18 +240,18 @@ const TestCard: React.FC<TestCardProps> = ({
   bgColor = 'bg-white',
 }) => {
   return (
-    <div className={`rounded-lg shadow-sm border ${
+    <div className={`rounded-lg shadow-md border-2 ${
       status === 'completed' 
         ? 'border-green-200' 
         : status === 'locked' 
           ? 'border-gray-200 opacity-70' 
           : 'border-primary/20'
-    } p-6 card-hover ${bgColor}`}>
-      <div className="flex justify-between items-start">
-        <div>
-          <h3 className="text-xl font-semibold mb-2 font-dyslexic">{title}</h3>
-          <p className="text-muted-foreground mb-2">{description}</p>
-          <p className="text-sm text-primary/80">{duration}</p>
+    } p-6 sm:p-8 card-hover ${bgColor} w-full mx-auto`}>
+      <div className="flex flex-col sm:flex-row justify-between items-start gap-6">
+        <div className="flex-1">
+          <h3 className="text-xl sm:text-2xl font-semibold mb-3 font-dyslexic">{title}</h3>
+          <p className="text-base sm:text-lg text-muted-foreground mb-3">{description}</p>
+          <p className="text-sm sm:text-base text-primary/80">{duration}</p>
         </div>
         <div>
           {status === 'completed' ? (

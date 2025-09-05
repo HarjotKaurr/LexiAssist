@@ -16,12 +16,16 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-[#fef7cd] to-[#fef7cd]/50">
+    <div className="h-screen flex flex-col bg-gradient-to-b from-[#fef7cd] to-[#fef7cd]/50">
       <Navigation />
-      <main className="flex-grow">{children}</main>
-      <footer className="py-6 bg-white/80 backdrop-blur-sm border-t border-primary/10">
-        <div className="container">
-          <p className="text-sm text-center text-muted-foreground font-dyslexic">
+      <main className="flex-1 w-full mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full h-full max-w-[90%] mx-auto flex flex-col justify-center -mt-20">
+          {children}
+        </div>
+      </main>
+      <footer className="w-full py-3 bg-white/80 backdrop-blur-sm border-t border-primary/10">
+        <div className="max-w-[90%] mx-auto px-4">
+          <p className="text-base text-center text-muted-foreground font-dyslexic">
             {footerText[preferredLanguage]}
           </p>
         </div>

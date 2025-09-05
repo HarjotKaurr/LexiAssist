@@ -7,6 +7,12 @@ const Results: React.FC = () => {
   const { testResults, resetTests, preferredLanguage } = useTest();
   const navigate = useNavigate();
   
+  const contentStyle = {
+    maxWidth: '1200px',
+    margin: '0 auto',
+    padding: '0 1rem'
+  };
+  
   const letterMatchResults = testResults.letterMatch;
   const wordSpeedResults = testResults.wordSpeed;
   const visualFocusResults = testResults.visualFocus;
