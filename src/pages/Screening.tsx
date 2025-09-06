@@ -29,7 +29,7 @@ const Screening: React.FC = () => {
     english: {
       title: "Dyslexia Screening",
       subtitle: "Complete the following tests to help identify potential reading challenges.",
-      timeEstimate: "The entire process takes about 5 minutes.",
+      timeEstimate: "The entire process takes about 7 minutes.",
       allCompleted: "All Tests Completed!",
       completedMessage: "Thank you for completing the screening. You can now view your results and personalized recommendations.",
       viewResults: "View My Results",
@@ -60,7 +60,7 @@ const Screening: React.FC = () => {
     hindi: {
       title: "डिस्लेक्सिया स्क्रीनिंग",
       subtitle: "संभावित पढ़ने की चुनौतियों की पहचान करने में मदद के लिए निम्नलिखित परीक्षण पूरा करें।",
-      timeEstimate: "पूरी प्रक्रिया में लगभग 5 मिनट लगते हैं।",
+      timeEstimate: "पूरी प्रक्रिया में लगभग 7 मिनट लगते हैं।",
       allCompleted: "सभी परीक्षण पूरे हुए!",
       completedMessage: "स्क्रीनिंग पूरी करने के लिए धन्यवाद। अब आप अपने परिणाम और व्यक्तिगत सिफारिशें देख सकते हैं।",
       viewResults: "मेरे परिणाम देखें",
@@ -91,7 +91,7 @@ const Screening: React.FC = () => {
     tamil: {
       title: "டிஸ்லெக்சியா திரையிடல்",
       subtitle: "சாத்தியமான வாசிப்பு சவால்களை அடையாளம் காண உதவ பின்வரும் சோதனைகளை முடிக்கவும்.",
-      timeEstimate: "முழு செயல்முறையும் சுமார் 5 நிமிடங்கள் ஆகும்.",
+      timeEstimate: "முழு செயல்முறையும் சுமார் 7 நிமிடங்கள் ஆகும்.",
       allCompleted: "அனைத்து சோதனைகளும் முடிந்தன!",
       completedMessage: "திரையிடலை முடித்ததற்கு நன்றி. இப்போது உங்கள் முடிவுகளையும் தனிப்பயனாக்கப்பட்ட பரிந்துரைகளையும் காணலாம்.",
       viewResults: "என் முடிவுகளைக் காண்க",
@@ -215,6 +215,7 @@ const Screening: React.FC = () => {
                   onClick={() => handleTestStart('letterMatch')}
                   disabled={isButtonDisabled('letterMatch')}
                   className={getButtonStyles('letterMatch')}
+                  data-testid="button-start-letter-match"
                 >
                   {getButtonText('letterMatch')}
                 </button>
@@ -235,6 +236,7 @@ const Screening: React.FC = () => {
                   onClick={() => handleTestStart('storybook')}
                   disabled={isButtonDisabled('storybook')}
                   className={getButtonStyles('storybook')}
+                  data-testid="button-start-storybook"
                 >
                   {getButtonText('storybook')}
                 </button>
@@ -255,6 +257,7 @@ const Screening: React.FC = () => {
                   onClick={() => handleTestStart('wordDetective')}
                   disabled={isButtonDisabled('wordDetective')}
                   className={getButtonStyles('wordDetective')}
+                  data-testid="button-start-word-detective"
                 >
                   {getButtonText('wordDetective')}
                 </button>
