@@ -75,7 +75,7 @@ const Home: React.FC = () => {
         </div>
 
         <div className="flex justify-center">
-        <Link to="/screening" className="bg-gradient-to-r from-orange-300 to-orange-400 hover:from-orange-400 hover:to-orange-500 text-white text-2xl px-8 py-4 rounded-xl flex items-center gap-3 font-dyslexic shadow-lg transition">
+        <Link to="/screening" className="bg-gradient-to-r from-orange-300 to-orange-400 hover:from-orange-400 hover:to-orange-500 text-white text-2xl px-8 py-4 rounded-xl flex items-center gap-3 shadow-lg transition">
             {content.startButton} <ArrowRight size={22} />
           </Link>
         </div>

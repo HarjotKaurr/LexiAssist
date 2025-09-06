@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
 export type SupportedLanguage = 'english' | 'hindi' | 'tamil';
-export type TestType = 'letterMatch' | 'wordSpeed' | 'visualFocus';
+export type TestType = 'letterMatch' | 'storybook' | 'wordDetective';
 
 interface TestResults {
   letterMatch?: {
@@ -9,15 +9,15 @@ interface TestResults {
     totalQuestions: number;
     timeSpent: number;
   };
-  wordSpeed?: {
-    wordsPerMinute: number;
-    accuracy: number;
-    difficultWords: string[];
+  storybook?: {
+    score: number;
+    totalQuestions: number;
+    timeSpent: number;
   };
-  visualFocus?: {
-    focusScore: number;
-    attentionSpan: number;
-    distractionCount: number;
+  wordDetective?: {
+    score: number;
+    totalQuestions: number;
+    timeSpent: number;
   };
 }
 

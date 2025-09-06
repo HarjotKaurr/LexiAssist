@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTest } from '../context/TestContext';
 import LetterMatch from '../components/LetterMatch';
-import WordSpeed from '../components/WordSpeed';
-import VisualFocus from '../components/VisualFocus';
+import WordDetective from '../components/WordDetective';
+import Storybook from '../components/Storybook';
 
 const Screening: React.FC = () => {
   const { currentTest, startTest, isTestCompleted, preferredLanguage } = useTest();
@@ -21,9 +21,9 @@ const Screening: React.FC = () => {
   };
   
   const isLetterMatchCompleted = isTestCompleted('letterMatch');
-  const isWordSpeedCompleted = isTestCompleted('wordSpeed');
-  const isVisualFocusCompleted = isTestCompleted('visualFocus');
-  const areAllTestsCompleted = isLetterMatchCompleted && isWordSpeedCompleted && isVisualFocusCompleted;
+  const isStorybookCompleted = isTestCompleted('storybook');
+  const isWordDetectiveCompleted = isTestCompleted('wordDetective');
+  const areAllTestsCompleted = isLetterMatchCompleted && isStorybookCompleted && isWordDetectiveCompleted;
   
   const translations = {
     english: {
@@ -40,15 +40,15 @@ const Screening: React.FC = () => {
           description: "This test helps identify if you have difficulty distinguishing between similar-looking letters.",
           duration: "2 minutes"
         },
-        wordSpeed: {
-          title: "Word Speed Challenge",
-          description: "This test measures how quickly and accurately you can read and process words.",
-          duration: "2 minutes"
+        storybook: {
+          title: "Storybook Challenge",
+          description: "Interactive stories that help improve reading comprehension and engagement.",
+          duration: "3 minutes"
         },
-        visualFocus: {
-          title: "Visual Focus Game",
-          description: "This fun game helps check how well your eyes can track and focus on moving objects.",
-          duration: "1 minute"
+        wordDetective: {
+          title: "Word Detective Challenge",
+          description: "Find the correctly spelled words to test your spelling recognition skills.",
+          duration: "2 minutes"
         }
       },
       status: {
@@ -71,15 +71,15 @@ const Screening: React.FC = () => {
           description: "यह परीक्षण यह पहचानने में मदद करता है कि क्या आपको समान दिखने वाले अक्षरों के बीच अंतर करने में कठिनाई होती है।",
           duration: "2 मिनट"
         },
-        wordSpeed: {
-          title: "शब्द गति चुनौती",
-          description: "यह परीक्षण मापता है कि आप कितनी जल्दी और सटीक रूप से शब्दों को पढ़ और प्रोसेस कर सकते हैं।",
-          duration: "2 मिनट"
+        storybook: {
+          title: "स्टोरीबुक चुनौती",
+          description: "इंटरैक्टिव कहानियाँ जो पढ़ने की समझ और जुड़ाव में सुधार करने में मदद करती हैं।",
+          duration: "3 मिनट"
         },
-        visualFocus: {
-          title: "दृश्य फोकस खेल",
-          description: "यह मजेदार खेल यह जांचने में मदद करता है कि आपकी आंखें चलती वस्तुओं को कितनी अच्छी तरह ट्रैक और फोकस कर सकती हैं।",
-          duration: "1 मिनट"
+        wordDetective: {
+          title: "वर्ड डिटेक्टिव चुनौती",
+          description: "अपने वर्तनी पहचान कौशल का परीक्षण करने के लिए सही वर्तनी वाले शब्दों को खोजें।",
+          duration: "2 मिनट"
         }
       },
       status: {
@@ -102,15 +102,15 @@ const Screening: React.FC = () => {
           description: "இந்த சோதனை ஒத்த தோற்றமுள்ள எழுத்துக்களை வேறுபடுத்துவதில் உங்களுக்கு சிரமம் உள்ளதா என்பதை அடையாளம் காண உதவுகிறது.",
           duration: "2 நிமிடங்கள்"
         },
-        wordSpeed: {
-          title: "சொல் வேக சவால்",
-          description: "இந்த சோதனை நீங்கள் எவ்வளவு விரைவாகவும் துல்லியமாகவும் சொற்களை வாசித்து செயலாக்க முடியும் என்பதை அளவிடுகிறது.",
-          duration: "2 நிமிடங்கள்"
+        storybook: {
+          title: "கதைப்புத்தக சவால்",
+          description: "வாசிப்புத் திறன் மற்றும் ஈடுபாட்டை மேம்படுத்த உதவும் ஊடாடும் கதைகள்.",
+          duration: "3 நிமிடங்கள்"
         },
-        visualFocus: {
-          title: "காட்சி கவன விளையாட்டு",
-          description: "இந்த வேடிக்கையான விளையாட்டு உங்கள் கண்கள் நகரும் பொருட்களை எவ்வளவு நன்றாகக் கண்காணிக்கவும் கவனம் செலுத்தவும் முடியும் என்பதை சரிபார்க்க உதவுகிறது.",
-          duration: "1 நிமிடம்"
+        wordDetective: {
+          title: "வார்த்தை துப்பறியும் சவால்",
+          description: "உங்கள் எழுத்துப்பிழை அடையாளம் கண்டுகொள்ளும் திறமையை சோதிக்க சரியாக எழுதப்பட்ட வார்த்தைகளைக் கண்டறியுங்கள்.",
+          duration: "2 நிமிடங்கள்"
         }
       },
       status: {
@@ -123,153 +123,154 @@ const Screening: React.FC = () => {
   
   const content = translations[preferredLanguage];
   
-  const handleStartTest = (test: 'letterMatch' | 'wordSpeed' | 'visualFocus') => {
-    setHasStarted(true);
-    startTest(test);
+  const handleTestStart = (testType: 'letterMatch' | 'storybook' | 'wordDetective') => {
+    if (testType === 'letterMatch') {
+      startTest('letterMatch');
+      setHasStarted(true);
+    } else if (testType === 'storybook') {
+      navigate('/storybook');
+    } else if (testType === 'wordDetective') {
+      navigate('/word-detective');
+    }
   };
   
-  const handleViewResults = () => {
-    navigate('/results');
-  };
-  
-  if (currentTest === 'letterMatch') {
+  // If a test is currently running, show the test component
+  if (currentTest === 'letterMatch' && hasStarted) {
     return <LetterMatch />;
   }
-  
-  if (currentTest === 'wordSpeed') {
-    return <WordSpeed />;
-  }
-  
-  if (currentTest === 'visualFocus') {
-    return <VisualFocus />;
-  }
-  
+
+  const getTestStatus = (testType: 'letterMatch' | 'storybook' | 'wordDetective') => {
+    if (isTestCompleted(testType)) {
+      return 'completed';
+    }
+    return 'available';
+  };
+
+  const getButtonText = (testType: 'letterMatch' | 'storybook' | 'wordDetective') => {
+    const status = getTestStatus(testType);
+    return content.status[status];
+  };
+
+  const isButtonDisabled = (testType: 'letterMatch' | 'storybook' | 'wordDetective') => {
+    return false; // All tests are available from the start
+  };
+
+  const getButtonStyles = (testType: 'letterMatch' | 'storybook' | 'wordDetective') => {
+    const status = getTestStatus(testType);
+    const baseStyles = "w-full py-4 px-6 rounded-lg font-semibold transition-all duration-200 ";
+    
+    if (status === 'completed') {
+      return baseStyles + "bg-green-500 text-white border-2 border-green-500";
+    } else if (status === 'available') {
+      return baseStyles + "bg-[#6C63FF] text-white hover:bg-[#5A52E8] border-2 border-[#6C63FF]";
+    } else {
+      return baseStyles + "bg-gray-300 text-gray-500 border-2 border-gray-300 cursor-not-allowed";
+    }
+  };
+
   return (
-    <div className="pt-24 pb-16 px-4">
-      <div className="container mx-auto">
-        <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-8 animate-fade-in">
-            <h1 className="text-4xl font-bold mb-4 text-[#2B2D42] font-dyslexic">{content.title}</h1>
-            <p className="text-lg text-[#6C63FF] mb-2">
-              {content.subtitle}
-            </p>
-            <p className="text-sm text-[#555770] mt-2 mb-8">
-              {content.timeEstimate}
-            </p>
-          </div>
-          
-          {areAllTestsCompleted ? (
-            <div className="bg-gradient-to-r from-orange-100 to-orange-200 border-2 border-orange-300/50 rounded-lg p-8 text-center animate-scale-in">
-              <h2 className="text-2xl font-semibold mb-2 font-dyslexic text-[#2B2D42]">{content.allCompleted}</h2>
-              <p className="mb-6 text-[#555770]">
-                {content.completedMessage}
-              </p>
-              <button
-                onClick={handleViewResults}
-                className="bg-gradient-to-r from-orange-300 to-orange-400 hover:from-orange-400 hover:to-orange-500 text-white px-6 py-3 rounded-xl font-dyslexic shadow-lg transition"
+    <div className="min-h-screen bg-[#fef7cd]/50">
+      <div style={mainContentStyle}>
+        {/* Header */}
+        <div className="text-center mb-8 pt-20">
+          <h1 className="text-4xl font-bold mb-4 text-[#2B2D42]">{content.title}</h1>
+          <p className="text-lg text-[#555770] mb-2 max-w-3xl">{content.subtitle}</p>
+          <p className="text-base text-[#6C63FF]">{content.timeEstimate}</p>
+        </div>
+
+        {/* All Tests Completed */}
+        {areAllTestsCompleted && (
+          <div className="bg-white rounded-3xl shadow-lg p-8 mb-8 text-center max-w-2xl w-full border-2 border-green-200">
+            <h2 className="text-3xl font-bold mb-4 text-green-600">{content.allCompleted}</h2>
+            <p className="text-lg text-[#555770] mb-6">{content.completedMessage}</p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link 
+                to="/results" 
+                className="bg-green-500 text-white py-3 px-6 rounded-lg font-semibold hover:bg-green-600 transition-colors duration-200"
               >
                 {content.viewResults}
-              </button>
+              </Link>
+              <Link 
+                to="/" 
+                className="bg-gray-500 text-white py-3 px-6 rounded-lg font-semibold hover:bg-gray-600 transition-colors duration-200"
+              >
+                {content.returnHome}
+              </Link>
             </div>
-          ) : (
-            <div className="grid gap-3 animate-fade-in" style={{ animationDelay: '0.2s' }}>
-              <TestCard
-                title={content.tests.letterMatch.title}
-                description={content.tests.letterMatch.description}
-                duration={content.tests.letterMatch.duration}
-                status={isLetterMatchCompleted ? 'completed' : 'available'}
-                statusText={isLetterMatchCompleted ? content.status.completed : content.status.available}
-                onClick={() => handleStartTest('letterMatch')}
-                bgColor="bg-gradient-to-r from-orange-50 to-orange-100"
-              />
-              
-              <TestCard
-                title={content.tests.wordSpeed.title}
-                description={content.tests.wordSpeed.description}
-                duration={content.tests.wordSpeed.duration}
-                status={isLetterMatchCompleted ? (isWordSpeedCompleted ? 'completed' : 'available') : 'locked'}
-                statusText={isLetterMatchCompleted ? 
-                  (isWordSpeedCompleted ? content.status.completed : content.status.available) 
-                  : content.status.locked}
-                onClick={() => handleStartTest('wordSpeed')}
-                bgColor="bg-gradient-to-r from-orange-100 to-orange-200"
-              />
-              
-              <TestCard
-                title={content.tests.visualFocus.title}
-                description={content.tests.visualFocus.description}
-                duration={content.tests.visualFocus.duration}
-                status={isWordSpeedCompleted ? (isVisualFocusCompleted ? 'completed' : 'available') : 'locked'}
-                statusText={isWordSpeedCompleted ? 
-                  (isVisualFocusCompleted ? content.status.completed : content.status.available) 
-                  : content.status.locked}
-                onClick={() => handleStartTest('visualFocus')}
-                bgColor="bg-gradient-to-r from-orange-200 to-orange-300"
-              />
+          </div>
+        )}
+
+        {/* Test Cards */}
+        <div className="grid gap-6 w-full max-w-4xl mb-8">
+          {/* Letter Match Test */}
+          <div className="bg-white rounded-3xl shadow-lg p-6 border-2 border-[#CADCFC] hover:shadow-xl transition-shadow duration-300">
+            <div className="flex flex-col md:flex-row gap-6 items-center">
+              <div className="flex-1">
+                <h3 className="text-2xl font-bold mb-3 text-[#2B2D42]">{content.tests.letterMatch.title}</h3>
+                <p className="text-base text-[#555770] mb-3">{content.tests.letterMatch.description}</p>
+                <div className="text-sm text-[#6C63FF] mb-4">⏱️ {content.tests.letterMatch.duration}</div>
+              </div>
+              <div className="flex-shrink-0">
+                <button
+                  onClick={() => handleTestStart('letterMatch')}
+                  disabled={isButtonDisabled('letterMatch')}
+                  className={getButtonStyles('letterMatch')}
+                >
+                  {getButtonText('letterMatch')}
+                </button>
+              </div>
             </div>
-          )}
-          
-          <div className="mt-8 text-center animate-fade-in" style={{ animationDelay: '0.4s' }}>
-            <Link to="/" className="text-[#6C63FF] hover:underline font-dyslexic">
-              {content.returnHome}
-            </Link>
+          </div>
+
+          {/* Storybook Challenge */}
+          <div className="bg-white rounded-3xl shadow-lg p-6 border-2 border-[#CADCFC] hover:shadow-xl transition-shadow duration-300">
+            <div className="flex flex-col md:flex-row gap-6 items-center">
+              <div className="flex-1">
+                <h3 className="text-2xl font-bold mb-3 text-[#2B2D42]">{content.tests.storybook.title}</h3>
+                <p className="text-base text-[#555770] mb-3">{content.tests.storybook.description}</p>
+                <div className="text-sm text-[#6C63FF] mb-4">⏱️ {content.tests.storybook.duration}</div>
+              </div>
+              <div className="flex-shrink-0">
+                <button
+                  onClick={() => handleTestStart('storybook')}
+                  disabled={isButtonDisabled('storybook')}
+                  className={getButtonStyles('storybook')}
+                >
+                  {getButtonText('storybook')}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Word Detective Challenge */}
+          <div className="bg-white rounded-3xl shadow-lg p-6 border-2 border-[#CADCFC] hover:shadow-xl transition-shadow duration-300">
+            <div className="flex flex-col md:flex-row gap-6 items-center">
+              <div className="flex-1">
+                <h3 className="text-2xl font-bold mb-3 text-[#2B2D42]">{content.tests.wordDetective.title}</h3>
+                <p className="text-base text-[#555770] mb-3">{content.tests.wordDetective.description}</p>
+                <div className="text-sm text-[#6C63FF] mb-4">⏱️ {content.tests.wordDetective.duration}</div>
+              </div>
+              <div className="flex-shrink-0">
+                <button
+                  onClick={() => handleTestStart('wordDetective')}
+                  disabled={isButtonDisabled('wordDetective')}
+                  className={getButtonStyles('wordDetective')}
+                >
+                  {getButtonText('wordDetective')}
+                </button>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  );
-};
 
-interface TestCardProps {
-  title: string;
-  description: string;
-  duration: string;
-  status: 'available' | 'locked' | 'completed';
-  statusText: string;
-  onClick: () => void;
-  bgColor?: string;
-}
-
-const TestCard: React.FC<TestCardProps> = ({
-  title,
-  description,
-  duration,
-  status,
-  statusText,
-  onClick,
-  bgColor = 'bg-white',
-}) => {
-  return (
-    <div className={`rounded-lg shadow-md border-2 ${
-      status === 'completed' 
-        ? 'border-green-200' 
-        : status === 'locked' 
-          ? 'border-gray-200 opacity-70' 
-          : 'border-primary/20'
-    } p-6 sm:p-8 card-hover ${bgColor} w-full mx-auto`}>
-      <div className="flex flex-col sm:flex-row justify-between items-start gap-6">
-        <div className="flex-1">
-          <h3 className="text-xl sm:text-2xl font-semibold mb-3 font-dyslexic">{title}</h3>
-          <p className="text-base sm:text-lg text-muted-foreground mb-3">{description}</p>
-          <p className="text-sm sm:text-base text-primary/80">{duration}</p>
-        </div>
-        <div>
-          {status === 'completed' ? (
-            <div className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
-              {statusText}
-            </div>
-          ) : status === 'locked' ? (
-            <div className="bg-gray-100 text-gray-500 px-3 py-1 rounded-full text-sm font-medium">
-              {statusText}
-            </div>
-          ) : (
-            <button
-              onClick={onClick}
-              className="btn-primary font-dyslexic"
-            >
-              {statusText}
-            </button>
-          )}
+        {/* Back to Home */}
+        <div className="text-center">
+          <Link 
+            to="/" 
+            className="inline-flex items-center text-[#6C63FF] hover:text-[#5A52E8] font-semibold transition-colors duration-200"
+          >
+            ← {content.returnHome}
+          </Link>
         </div>
       </div>
     </div>
