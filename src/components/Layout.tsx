@@ -25,7 +25,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       </main>
       <footer className="w-full py-3 bg-white/80 backdrop-blur-sm border-t border-primary/10">
         <div className="max-w-[90%] mx-auto px-4">
-          <p className="text-base text-center text-muted-foreground font-dyslexic">
+          <p className="text-base text-center text-muted-foreground">
             {footerText[preferredLanguage]}
           </p>
         </div>

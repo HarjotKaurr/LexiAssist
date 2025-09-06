@@ -51,10 +51,10 @@ const Home: React.FC = () => {
     <div className="relative pt-32 pb-16 px-6 min-h-screen bg-[#fef7cd]/50">
       <div className="container mx-auto relative z-10">
         <div className="text-center mb-12 max-w-4xl mx-auto">
-          <h1 className="text-5xl font-bold mb-6 text-[#2B2D42] font-dyslexic">{content.title}</h1>
-          <p className="text-2xl mb-4 text-[#6C63FF] font-dyslexic">{content.subtitle}</p>
-          <p className="text-lg mb-6 text-[#555770] font-dyslexic">{content.description}</p>
-          <div className="inline-block bg-[#FFE3EC] text-[#6C63FF] rounded-full px-6 py-2 text-md mb-10 font-dyslexic">
+          <h1 className="text-5xl font-bold mb-6 text-[#2B2D42]">{content.title}</h1>
+          <p className="text-2xl mb-4 text-[#6C63FF]">{content.subtitle}</p>
+          <p className="text-lg mb-6 text-[#555770]">{content.description}</p>
+          <div className="inline-block bg-[#FFE3EC] text-[#6C63FF] rounded-full px-6 py-2 text-md mb-10">
             {content.ageRange}
           </div>
         </div>
@@ -68,8 +68,8 @@ const Home: React.FC = () => {
               <div className="bg-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm">
                 <feature.icon className="text-[#6C63FF]" size={30} />
               </div>
-              <h3 className="text-2xl font-semibold mb-3 font-dyslexic text-[#2B2D42]">{feature.title}</h3>
-              <p className="text-base text-[#333] font-dyslexic">{feature.description}</p>
+              <h3 className="text-2xl font-semibold mb-3 text-[#2B2D42]">{feature.title}</h3>
+              <p className="text-base text-[#333]">{feature.description}</p>
             </div>
           ))}
         </div>
