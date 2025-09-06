@@ -330,7 +330,7 @@ const Results: React.FC = () => {
           
           <div className="grid gap-8 mb-8">
             <div className="bg-gradient-to-r from-orange-50 to-orange-100 rounded-xl shadow-sm p-6 border-2 border-orange-200/30 animate-fade-in" style={{ animationDelay: '0.2s' }}>
-              <h2 className="text-xl font-semibold mb-4 font-dyslexic text-[#2B2D42]">{content.riskAssessment}</h2>
+              <h2 className="text-xl font-semibold mb-4 font-dyslexic text-[#2B2D42]" data-testid="risk-assessment-title">{content.riskAssessment}</h2>
               
               <div className="flex flex-col items-center justify-center mb-6">
                 <div className={`w-24 h-24 rounded-full flex items-center justify-center mb-3 ${
@@ -344,16 +344,16 @@ const Results: React.FC = () => {
                     {riskLevel === 'low' ? '😊' : riskLevel === 'medium' ? '🤔' : '🧠'}
                   </span>
                 </div>
-                <span className="text-lg font-medium capitalize">
+                <span className="text-lg font-medium capitalize" data-testid="risk-level">
                   {content.riskLevels[riskLevel]}
                 </span>
               </div>
               
               <div className="mt-6">
-                <h3 className="text-lg font-medium mb-3 font-dyslexic">{content.strengthsTitle}</h3>
+                <h3 className="text-lg font-medium mb-3 font-dyslexic" data-testid="strengths-title">{content.strengthsTitle}</h3>
                 <ul className="space-y-2">
                   {getStrengths().map((strength, index) => (
-                    <li key={index} className="flex items-start">
+                    <li key={index} className="flex items-start" data-testid={`strength-item-${index}`}>
                       <span className="inline-block w-5 h-5 rounded-full bg-green-100 text-green-700 flex-shrink-0 flex items-center justify-center mr-3 mt-0.5">
                         ✓
                       </span>
@@ -364,7 +364,7 @@ const Results: React.FC = () => {
               </div>
               
               <div className="mt-6">
-                <h3 className="text-lg font-medium mb-2 font-dyslexic">{content.learningStyle}</h3>
+                <h3 className="text-lg font-medium mb-2 font-dyslexic" data-testid="learning-style-title">{content.learningStyle}</h3>
                 <div className="bg-white rounded-lg p-4 inline-block">
                   <div className="flex items-center">
                     {learningStyle === 'visual' ? (
@@ -374,7 +374,7 @@ const Results: React.FC = () => {
                     ) : (
                       <Lightbulb className="text-primary mr-2" size={20} />
                     )}
-                    <span className="font-medium">{content.styles[learningStyle]}</span>
+                    <span className="font-medium" data-testid="learning-style-value">{content.styles[learningStyle]}</span>
                   </div>
                 </div>
               </div>
@@ -455,10 +455,10 @@ const Results: React.FC = () => {
             </div>
             
             <div className="bg-gradient-to-r from-orange-50 to-orange-100 rounded-xl shadow-sm p-6 border-2 border-orange-200/30 animate-fade-in" style={{ animationDelay: '0.6s' }}>
-              <h2 className="text-xl font-semibold mb-4 font-dyslexic text-[#2B2D42]">{content.recommendations}</h2>
+              <h2 className="text-xl font-semibold mb-4 font-dyslexic text-[#2B2D42]" data-testid="recommendations-title">{content.recommendations}</h2>
               <ul className="space-y-3">
                 {getRecommendations().map((recommendation, index) => (
-                  <li key={index} className="flex items-start">
+                  <li key={index} className="flex items-start" data-testid={`recommendation-item-${index}`}>
                     <span className="inline-block w-5 h-5 rounded-full bg-primary/10 text-primary flex-shrink-0 flex items-center justify-center mr-3 mt-0.5">
                       ✓
                     </span>
@@ -470,10 +470,10 @@ const Results: React.FC = () => {
           </div>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in" style={{ animationDelay: '0.7s' }}>
-            <button onClick={handleStartOver} className="bg-gradient-to-r from-orange-200 to-orange-300 hover:from-orange-300 hover:to-orange-400 text-white px-6 py-3 rounded-xl font-dyslexic shadow-lg transition">
+            <button onClick={handleStartOver} className="bg-gradient-to-r from-orange-200 to-orange-300 hover:from-orange-300 hover:to-orange-400 text-white px-6 py-3 rounded-xl font-dyslexic shadow-lg transition" data-testid="button-take-test-again">
               {content.takeTestAgain}
             </button>
-            <Link to="/" className="bg-gradient-to-r from-orange-300 to-orange-400 hover:from-orange-400 hover:to-orange-500 text-white px-6 py-3 rounded-xl font-dyslexic shadow-lg transition">
+            <Link to="/" className="bg-gradient-to-r from-orange-300 to-orange-400 hover:from-orange-400 hover:to-orange-500 text-white px-6 py-3 rounded-xl font-dyslexic shadow-lg transition" data-testid="link-return-home">
               {content.returnHome}
             </Link>
           </div>
