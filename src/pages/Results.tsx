@@ -14,10 +14,10 @@ const Results: React.FC = () => {
   };
   
   const letterMatchResults = testResults.letterMatch;
-  const wordSpeedResults = testResults.wordSpeed;
-  const visualFocusResults = testResults.visualFocus;
+  const storybookResults = testResults.storybook;
+  const wordDetectiveResults = testResults.wordDetective;
   
-  const hasResults = letterMatchResults && wordSpeedResults && visualFocusResults;
+  const hasResults = letterMatchResults && storybookResults && wordDetectiveResults;
   
   const translations = {
     english: {
@@ -29,15 +29,15 @@ const Results: React.FC = () => {
       goToScreening: "Go to Screening",
       riskAssessment: "Learning Profile",
       letterMatchResults: "Letter Matching Results",
-      wordSpeedResults: "Word Speed Results",
-      visualFocusResults: "Visual Focus Results",
+      storybookResults: "Story Comprehension Results",
+      wordDetectiveResults: "Word Recognition Results",
       accuracy: "Accuracy",
       timeSpent: "Time Spent",
-      wordsPerMinute: "Words Per Minute",
-      focusScore: "Focus Score",
-      attentionSpan: "Attention Span",
-      distractions: "Distractions",
-      challengingWords: "Challenging Words",
+      comprehensionScore: "Comprehension Score",
+      recognitionScore: "Recognition Score",
+      questionsCorrect: "Questions Correct",
+      totalQuestions: "Total Questions",
+      challengingAreas: "Challenging Areas",
       recommendations: "Personalized Recommendations",
       takeTestAgain: "Take Test Again",
       returnHome: "Return Home",
@@ -64,15 +64,15 @@ const Results: React.FC = () => {
       goToScreening: "स्क्रीनिंग पर जाएं",
       riskAssessment: "लर्निंग प्रोफाइल",
       letterMatchResults: "अक्षर मिलान परिणाम",
-      wordSpeedResults: "शब्द गति परिणाम",
-      visualFocusResults: "दृश्य फोकस परिणाम",
+      storybookResults: "कहानी समझ परिणाम",
+      wordDetectiveResults: "शब्द पहचान परिणाम",
       accuracy: "सटीकता",
       timeSpent: "बिताया गया समय",
-      wordsPerMinute: "प्रति मिनट शब्द",
-      focusScore: "फोकस स्कोर",
-      attentionSpan: "ध्यान अवधि",
-      distractions: "विकर्षण",
-      challengingWords: "चुनौतीपूर्ण शब्द",
+      comprehensionScore: "समझ स्कोर",
+      recognitionScore: "पहचान स्कोर",
+      questionsCorrect: "सही उत्तर",
+      totalQuestions: "कुल प्रश्न",
+      challengingAreas: "चुनौतीपूर्ण क्षेत्र",
       recommendations: "व्यक्तिगत सिफारिशें",
       takeTestAgain: "परीक्षण फिर से लें",
       returnHome: "होम पर वापस जाएं",
@@ -99,15 +99,15 @@ const Results: React.FC = () => {
       goToScreening: "திரையிடலுக்குச் செல்லவும்",
       riskAssessment: "கற்றல் சுயவிவரம்",
       letterMatchResults: "எழுத்து பொருத்தும் முடிவுகள்",
-      wordSpeedResults: "சொல் வேக முடிவுகள்",
-      visualFocusResults: "காட்சி கவன முடிவுகள்",
+      storybookResults: "கதை புரிதல் முடிவுகள்",
+      wordDetectiveResults: "சொல் அடையாளம் முடிவுகள்",
       accuracy: "துல்லியம்",
       timeSpent: "செலவழித்த நேரம்",
-      wordsPerMinute: "நிமிடத்திற்கு சொற்கள்",
-      focusScore: "கவன மதிப்பெண்",
-      attentionSpan: "கவன காலம்",
-      distractions: "கவனச்சிதறல்கள்",
-      challengingWords: "சவாலான சொற்கள்",
+      comprehensionScore: "புரிதல் மதிப்பெண்",
+      recognitionScore: "அடையாளம் மதிப்பெண்",
+      questionsCorrect: "சரியான கேள்விகள்",
+      totalQuestions: "மொத்த கேள்விகள்",
+      challengingAreas: "சவாலான பகுதிகள்",
       recommendations: "தனிப்பயனாக்கப்பட்ட பரிந்துரைகள்",
       takeTestAgain: "மீண்டும் சோதனை எடுக்கவும்",
       returnHome: "முகப்புக்குத் திரும்பு",
@@ -136,10 +136,10 @@ const Results: React.FC = () => {
       (letterMatchResults?.correctAnswers || 0) / 
       (letterMatchResults?.totalQuestions || 1);
     
-    const wordSpeedAccuracy = (wordSpeedResults?.accuracy || 0) / 100;
-    const visualFocusScore = (visualFocusResults?.focusScore || 0) / 100;
+    const storybookScore = (storybookResults?.score || 0) / (storybookResults?.totalQuestions || 1);
+    const wordDetectiveScore = (wordDetectiveResults?.score || 0) / (wordDetectiveResults?.totalQuestions || 1);
     
-    const avgScore = (letterMatchScore + wordSpeedAccuracy + visualFocusScore) / 3;
+    const avgScore = (letterMatchScore + storybookScore + wordDetectiveScore) / 3;
     
     if (avgScore > 0.85) return 'low';
     if (avgScore > 0.65) return 'medium';
@@ -155,11 +155,11 @@ const Results: React.FC = () => {
       (letterMatchResults?.correctAnswers || 0) / 
       (letterMatchResults?.totalQuestions || 1) * 100;
     
-    const visualFocusScore = visualFocusResults?.focusScore || 0;
+    const storybookScore = (storybookResults?.score || 0) / (storybookResults?.totalQuestions || 1) * 100;
     
-    if (letterMatchScore > 85 && visualFocusScore > 85) {
+    if (letterMatchScore > 85 && storybookScore > 80) {
       return 'visual';
-    } else if (wordSpeedResults?.wordsPerMinute && wordSpeedResults.wordsPerMinute > 30) {
+    } else if (wordDetectiveResults?.score && (wordDetectiveResults.score / wordDetectiveResults.totalQuestions) > 0.8) {
       return 'auditory';
     }
     
@@ -181,36 +181,36 @@ const Results: React.FC = () => {
           : 'எழுத்து வடிவங்களை அடையாளம் காண்பதில் நல்லது');
     }
     
-    if (wordSpeedResults?.accuracy && wordSpeedResults.accuracy > 80) {
+    if (storybookResults?.score && (storybookResults.score / storybookResults.totalQuestions) > 0.8) {
       strengths.push(preferredLanguage === 'english' 
-        ? 'High reading accuracy' 
+        ? 'Good story comprehension skills' 
         : preferredLanguage === 'hindi'
-          ? 'उच्च पठन सटीकता'
-          : 'உயர் வாசிப்பு துல்லியம்');
+          ? 'अच्छी कहानी समझ कौशल'
+          : 'நல்ல கதை புரிதல் திறன்');
     }
     
-    if (wordSpeedResults?.wordsPerMinute && wordSpeedResults.wordsPerMinute > 30) {
+    if (wordDetectiveResults?.score && (wordDetectiveResults.score / wordDetectiveResults.totalQuestions) > 0.8) {
       strengths.push(preferredLanguage === 'english' 
-        ? 'Good reading speed' 
+        ? 'Strong word recognition abilities' 
         : preferredLanguage === 'hindi'
-          ? 'अच्छी पढ़ने की गति'
-          : 'நல்ல வாசிப்பு வேகம்');
+          ? 'मजबूत शब्द पहचान क्षमता'
+          : 'வலுவான சொல் அடையாள திறன்');
     }
     
-    if (visualFocusResults?.focusScore && visualFocusResults.focusScore > 80) {
+    if (storybookResults?.timeSpent && storybookResults.timeSpent < 120) {
       strengths.push(preferredLanguage === 'english' 
-        ? 'Strong visual attention' 
+        ? 'Quick processing of stories' 
         : preferredLanguage === 'hindi'
-          ? 'मजबूत दृश्य ध्यान'
-          : 'வலுவான காட்சி கவனம்');
+          ? 'कहानियों की त्वरित प्रसंस्करण'
+          : 'கதைகளின் விரைவான செயலாக்கம்');
     }
     
-    if (visualFocusResults?.distractionCount && visualFocusResults.distractionCount < 5) {
+    if (wordDetectiveResults?.timeSpent && wordDetectiveResults.timeSpent < 120) {
       strengths.push(preferredLanguage === 'english' 
-        ? 'Stays focused on tasks' 
+        ? 'Quick word identification' 
         : preferredLanguage === 'hindi'
-          ? 'कार्यों पर ध्यान केंद्रित रखता है'
-          : 'பணிகளில் கவனம் செலுத்துகிறது');
+          ? 'त्वरित शब्द पहचान'
+          : 'விரைவான சொல் அடையாளம்');
     }
     
     // Add at least one strength if none found
@@ -246,22 +246,22 @@ const Results: React.FC = () => {
           : 'ஃபிளாஷ்கார்டுகளுடன் எழுத்து அங்கீகார விளையாட்டுகளை பயிற்சி செய்யுங்கள்');
     }
     
-    // Based on word speed results
-    if (wordSpeedResults?.wordsPerMinute && wordSpeedResults.wordsPerMinute < 25) {
+    // Based on storybook results
+    if (storybookResults?.score && (storybookResults.score / storybookResults.totalQuestions) < 0.7) {
       recommendations.push(preferredLanguage === 'english' 
-        ? 'Practice reading simple stories aloud' 
+        ? 'Practice reading stories with picture support' 
         : preferredLanguage === 'hindi'
-          ? 'सरल कहानियों को जोर से पढ़ने का अभ्यास करें'
-          : 'எளிய கதைகளை உரக்கப் படிக்கப் பயிற்சி செய்யுங்கள்');
+          ? 'तस्वीरों के साथ कहानियां पढ़ने का अभ्यास करें'
+          : 'படங்கள் அடைப்பியான கதைகளைப் படிக்கப் பயிற்சி செய்யுங்கள்');
     }
     
-    // Based on visual focus results
-    if (visualFocusResults?.distractionCount && visualFocusResults.distractionCount > 8) {
+    // Based on word detective results
+    if (wordDetectiveResults?.score && (wordDetectiveResults.score / wordDetectiveResults.totalQuestions) < 0.7) {
       recommendations.push(preferredLanguage === 'english' 
-        ? 'Use a reading guide or ruler under each line when reading' 
+        ? 'Practice word recognition games and sight word activities' 
         : preferredLanguage === 'hindi'
-          ? 'पढ़ते समय प्रत्येक पंक्ति के नीचे एक पढ़ने वाले गाइड या रूलर का उपयोग करें'
-          : 'படிக்கும்போது ஒவ்வொரு வரியின் கீழும் ஒரு வாசிப்பு வழிகாட்டி அல்லது அளவுகோலைப் பயன்படுத்தவும்');
+          ? 'शब्द पहचान खेल और दृश्य शब्द गतिविधियों का अभ्यास करें'
+          : 'சொல் அடையாள விளையாட்டுகள் மற்றும் காட்சி வார்த்தை செயல்பாடுகளின் பயிற்சியைப் பண்येவும்');
     }
     
     // Based on learning style
@@ -382,72 +382,72 @@ const Results: React.FC = () => {
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="bg-gradient-to-r from-orange-100/80 to-orange-200/80 rounded-xl shadow-sm p-6 border-2 border-orange-200/30 animate-fade-in" style={{ animationDelay: '0.3s' }}>
-                <h2 className="text-lg font-semibold mb-4 font-dyslexic text-[#2B2D42]">{content.letterMatchResults}</h2>
+                <h2 className="text-lg font-semibold mb-4 font-dyslexic text-[#2B2D42]" data-testid="letter-match-results-title">{content.letterMatchResults}</h2>
                 <div className="space-y-4">
                   <div className="flex justify-between items-center pb-2 border-b border-primary/10">
                     <span>{content.accuracy}</span>
-                    <span className="font-medium">
+                    <span className="font-medium" data-testid="letter-match-accuracy">
                       {letterMatchResults ? `${Math.round((letterMatchResults.correctAnswers / letterMatchResults.totalQuestions) * 100)}%` : 'N/A'}
                     </span>
                   </div>
                   <div className="flex justify-between items-center pb-2 border-b border-primary/10">
                     <span>{content.timeSpent}</span>
-                    <span className="font-medium">
+                    <span className="font-medium" data-testid="letter-match-time">
                       {letterMatchResults ? `${letterMatchResults.timeSpent.toFixed(1)} ${content.seconds}` : 'N/A'}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center pb-2 border-b border-primary/10">
+                    <span>{content.questionsCorrect}</span>
+                    <span className="font-medium" data-testid="letter-match-score">
+                      {letterMatchResults ? `${letterMatchResults.correctAnswers}/${letterMatchResults.totalQuestions}` : 'N/A'}
                     </span>
                   </div>
                 </div>
               </div>
               
               <div className="bg-gradient-to-r from-orange-200/80 to-orange-300/80 rounded-xl shadow-sm p-6 border-2 border-orange-200/30 animate-fade-in" style={{ animationDelay: '0.4s' }}>
-                <h2 className="text-lg font-semibold mb-4 font-dyslexic text-[#2B2D42]">{content.wordSpeedResults}</h2>
+                <h2 className="text-lg font-semibold mb-4 font-dyslexic text-[#2B2D42]" data-testid="storybook-results-title">{content.storybookResults}</h2>
                 <div className="space-y-4">
                   <div className="flex justify-between items-center pb-2 border-b border-primary/10">
-                    <span>{content.wordsPerMinute}</span>
-                    <span className="font-medium">
-                      {wordSpeedResults ? wordSpeedResults.wordsPerMinute : 'N/A'}
+                    <span>{content.comprehensionScore}</span>
+                    <span className="font-medium" data-testid="storybook-score">
+                      {storybookResults ? `${storybookResults.score}/${storybookResults.totalQuestions}` : 'N/A'}
                     </span>
                   </div>
                   <div className="flex justify-between items-center pb-2 border-b border-primary/10">
-                    <span>{content.accuracy}</span>
-                    <span className="font-medium">
-                      {wordSpeedResults ? `${wordSpeedResults.accuracy}%` : 'N/A'}
+                    <span>{content.timeSpent}</span>
+                    <span className="font-medium" data-testid="storybook-time">
+                      {storybookResults ? `${storybookResults.timeSpent.toFixed(1)} ${content.seconds}` : 'N/A'}
                     </span>
                   </div>
-                  {wordSpeedResults?.difficultWords.length ? (
-                    <div className="pt-2">
-                      <span className="block mb-2">{content.challengingWords}:</span>
-                      <div className="flex flex-wrap gap-2">
-                        {wordSpeedResults.difficultWords.map((word, index) => (
-                          <span key={index} className="bg-white px-2 py-1 rounded-full text-sm">
-                            {word}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  ) : null}
+                  <div className="flex justify-between items-center pb-2 border-b border-primary/10">
+                    <span>{content.questionsCorrect}</span>
+                    <span className="font-medium" data-testid="storybook-accuracy">
+                      {storybookResults ? `${Math.round((storybookResults.score / storybookResults.totalQuestions) * 100)}%` : 'N/A'}
+                    </span>
+                  </div>
                 </div>
               </div>
               
               <div className="bg-gradient-to-r from-orange-300/80 to-orange-400/80 rounded-xl shadow-sm p-6 border-2 border-orange-200/30 animate-fade-in" style={{ animationDelay: '0.5s' }}>
-                <h2 className="text-lg font-semibold mb-4 font-dyslexic text-[#2B2D42]">{content.visualFocusResults}</h2>
+                <h2 className="text-lg font-semibold mb-4 font-dyslexic text-[#2B2D42]" data-testid="word-detective-results-title">{content.wordDetectiveResults}</h2>
                 <div className="space-y-4">
                   <div className="flex justify-between items-center pb-2 border-b border-primary/10">
-                    <span>{content.focusScore}</span>
-                    <span className="font-medium">
-                      {visualFocusResults ? visualFocusResults.focusScore : 'N/A'}
+                    <span>{content.recognitionScore}</span>
+                    <span className="font-medium" data-testid="word-detective-score">
+                      {wordDetectiveResults ? `${wordDetectiveResults.score}/${wordDetectiveResults.totalQuestions}` : 'N/A'}
                     </span>
                   </div>
                   <div className="flex justify-between items-center pb-2 border-b border-primary/10">
-                    <span>{content.attentionSpan}</span>
-                    <span className="font-medium">
-                      {visualFocusResults ? `${visualFocusResults.attentionSpan} ${content.seconds}` : 'N/A'}
+                    <span>{content.timeSpent}</span>
+                    <span className="font-medium" data-testid="word-detective-time">
+                      {wordDetectiveResults ? `${wordDetectiveResults.timeSpent.toFixed(1)} ${content.seconds}` : 'N/A'}
                     </span>
                   </div>
                   <div className="flex justify-between items-center pb-2 border-b border-primary/10">
-                    <span>{content.distractions}</span>
-                    <span className="font-medium">
-                      {visualFocusResults ? visualFocusResults.distractionCount : 'N/A'}
+                    <span>{content.questionsCorrect}</span>
+                    <span className="font-medium" data-testid="word-detective-accuracy">
+                      {wordDetectiveResults ? `${Math.round((wordDetectiveResults.score / wordDetectiveResults.totalQuestions) * 100)}%` : 'N/A'}
                     </span>
                   </div>
                 </div>
