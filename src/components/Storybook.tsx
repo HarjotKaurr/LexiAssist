@@ -15,21 +15,27 @@ const Storybook: React.FC = () => {
       description: "This challenge will be available soon! Check back later for an exciting story adventure.",
       comingSoon: "Coming Soon...",
       backHome: "Back to Home",
-      placeholder: "Stay tuned for interactive stories that will help improve your reading skills!"
+      placeholder: "Stay tuned for interactive stories that will help improve your reading skills!",
+      markCompleted: "Mark as Completed",
+      completedMessage: "Great! You've acknowledged this upcoming feature. Click the button below to complete this test."
     },
     hindi: {
       title: "स्टोरीबुक चुनौती",
       description: "यह चुनौती जल्द ही उपलब्ध होगी! एक रोमांचक कहानी के लिए बाद में वापस देखें।",
       comingSoon: "जल्दी आ रहा है...",
       backHome: "होम पर वापस",
-      placeholder: "इंटरैक्टिव कहानियों के लिए बने रहें जो आपके पढ़ने के कौशल में सुधार करने में मदद करेंगी!"
+      placeholder: "इंटरैक्टिव कहानियों के लिए बने रहें जो आपके पढ़ने के कौशल में सुधार करने में मदद करेंगी!",
+      markCompleted: "पूर्ण के रूप में चिह्नित करें",
+      completedMessage: "बहुत बढ़िया! आपने इस आने वाली सुविधा को स्वीकार कर लिया है। इस परीक्षा को पूरा करने के लिए नीचे दिए गए बटन पर क्लिक करें।"
     },
     tamil: {
       title: "கதைப்புத்தக சவால்",
       description: "இந்த சவால் விரைவில் கிடைக்கும்! ஒரு அற்புதமான கதை சாகசத்திற்கு பின்னர் திரும்பி வாருங்கள்.",
       comingSoon: "விரைவில் வருகிறது...",
       backHome: "முகப்புக்கு திரும்பு",
-      placeholder: "உங்கள் வாசிப்பு திறனை மேம்படுத்த உதவும் ஊடாடும் கதைகளுக்காக காத்திருங்கள்!"
+      placeholder: "உங்கள் வாசிப்பு திறனை மேம்படுத்த உதவும் ஊடாடும் கதைகளுக்காக காத்திருங்கள்!",
+      markCompleted: "முடிவு செய்யப்பட்டதாக குறிக்கவும்",
+      completedMessage: "சிறப்பு! இந்த வரவிருக்கும் அம்சத்தை நீங்கள் அங்கீகரித்துவிட்டீர்கள். இந்த தேர்வை முடிக்க கீழே உள்ள பொத்தானைக் கிளிக் செய்யவும்."
     }
   };
 
