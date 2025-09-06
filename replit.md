@@ -35,8 +35,14 @@ Preferred communication style: Simple, everyday language.
 
 ## Test Implementation
 - **Letter Matching**: Tests ability to distinguish between visually similar letters (b, d, p, q)
-- **Word Speed**: Measures reading speed and accuracy with a mix of common and challenging words
-- **Visual Focus**: Gamified eye-tracking simulation to assess attention and focus capabilities
+- **Storybook**: Interactive story comprehension test that measures reading comprehension and understanding
+- **Word Detective**: Word recognition and visual discrimination test to identify hidden or difficult words
+
+**Recent Changes (September 2025)**: 
+- Replaced Word Speed test with Storybook challenge for better comprehension assessment
+- Replaced Visual Focus test with Word Detective challenge for enhanced word recognition testing
+- Updated Results.tsx component to display data from new challenge types (storybook, wordDetective)
+- Added comprehensive data-testid attributes throughout Results component for testing
 
 # External Dependencies
 
