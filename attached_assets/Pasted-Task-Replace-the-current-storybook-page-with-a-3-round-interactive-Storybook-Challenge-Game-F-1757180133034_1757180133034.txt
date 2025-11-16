@@ -1,0 +1,138 @@
+Task
+
+Replace the current storybook page with a 3-round interactive Storybook Challenge.
+
+Game Flow
+Round 1 (Text-only mode)
+
+Display 3 jumbled text lines:
+
+“The little cat found a shiny key.”
+
+“The cat opened a small treasure box.”
+
+“Inside the box, there was a sparkling star.”
+
+Kids tap lines in order.
+
+First tap → assigns number 1 (badge shown at end of line).
+
+Second tap → assigns number 2, etc.
+
+If tapped again → deselects and removes badge.
+
+On submission → compare with correct order [1, 2, 3].
+
+Award +1 point per correct position.
+
+Store Round 1 score.
+
+Round 2 (Picture-supported mode)
+
+Load 3 images with sentences embedded from storybook-assets/round-2.
+
+Shuffle order before display.
+
+Interaction = same as Round 1 (tap → numbered badges).
+
+On submission → check against correct order [1, 2, 3].
+
+Award points and store Round 2 score.
+
+Round 3 (Distractor with visuals)
+
+Display 3 sentences at the top:
+
+“A little rocket blasted off into the sky.”
+
+“The rocket flew past the moon.”
+
+“It landed safely on a red planet.”
+
+Below, show 4 images from storybook-assets/round-3:
+
+Rocket launching (correct 1)
+
+Rocket flying past the moon (correct 2)
+
+Rocket landing on red planet (correct 3)
+
+Rocket floating in ocean with fish (distractor)
+
+Kids select 3 images in order (same tap → numbered badges interaction).
+
+On submission → check if selected sequence = [1, 2, 3].
+
+Award +1 per correct position.
+
+Track if distractor was picked (store in results but do not show yet).
+🔹 Results Handling (Updated)
+
+After Round 3 is completed:
+
+Save:
+
+round1Score (0–3)
+
+round2Score (0–3)
+
+round3Score (0–3)
+
+pickedDistractor (true/false)
+
+Do not display results yet.
+
+Return the user to the Screening Page, where they can proceed to the next challenge.
+
+When the final results page of the screening is shown:
+
+Display:
+
+Storybook Round 1 score (0–3)
+
+Storybook Round 2 score (0–3)
+
+Storybook Round 3 score (0–3)
+
+Additional logic for interpretation:
+
+If round2Score > round1Score → show message: “You often need visual assistance.”
+
+If pickedDistractor = true → show message: "Visuals can distract you."
+Data Structure Example
+const rounds = {
+  1: {
+    type: "text",
+    items: [
+      "The little cat found a shiny key.",
+      "The cat opened a small treasure box.",
+      "Inside the box, there was a sparkling star."
+    ],
+    correctOrder: [1, 2, 3]
+  },
+  2: {
+    type: "image",
+    items: [
+      "storybook-assets/round-2/1.png",
+      "storybook-assets/round-2/2.png",
+      "storybook-assets/round-2/3.png"
+    ],
+    correctOrder: [1, 2, 3]
+  },
+  3: {
+    type: "imageDistractor",
+    lines: [
+      "A little rocket blasted off into the sky.",
+      "The rocket flew past the moon.",
+      "It landed safely on a red planet."
+    ],
+    items: [
+      "storybook-assets/round-3/1.png",   // correct 1
+      "storybook-assets/round-3/2.png",     // correct 2
+      "storybook-assets/round-3/3.png",   // correct 3
+      "storybook-assets/round-3/4.png"     // distractor
+    ],
+    correctOrder: [1, 2, 3],
+    distractorIndex: 4
+  }
+}
