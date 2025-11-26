@@ -174,14 +174,18 @@ const Storybook: React.FC = () => {
   const currentRoundData = rounds[currentRound];
   const totalRounds = 5; // Always 5: 3 initial + 2 AI rounds
 
+  // Base URL for API calls
+  const base = import.meta.env.VITE_API_URL || '';
+  
   // Fetch AI rounds after round 3 submit
   const fetchAIRounds = async () => {
     setShowGeneratingCard(true);
     setGeneratingError(null);
     
     try {
-      const response = await fetch('http://localhost:8000/api/storybook/generate-rounds', {
+      const response = await fetch(`${base}/api/storybook/generate-rounds`, {
         method: 'POST',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           preferredLanguage,
@@ -247,8 +251,9 @@ const Storybook: React.FC = () => {
       
       console.log(`[analyzeResponse] User order:`, userOrder);
       
-      const response = await fetch('http://localhost:8000/api/storybook/analyze-response', {
+      const response = await fetch(`${base}/api/storybook/analyze-response`, {
         method: 'POST',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           roundId: `ai-${currentRound}`,
@@ -269,7 +274,7 @@ const Storybook: React.FC = () => {
       const data = await response.json();
       console.log(`[analyzeResponse] Analysis received:`, data);
       
-      const analysis = data.analysis;
+      const analysis = data.analysis || data.data?.analysis || data.data || data;
       
       setAiAnalysis(prev => ({ ...prev, [currentRound]: analysis }));
       setCurrentAnalysis(analysis);
@@ -302,7 +307,7 @@ const Storybook: React.FC = () => {
         round3Score: roundScores.round3,
         pickedDistractor,
         timeSpent,
-        aiAnalysis
+        sessionId: `session-${Date.now()}`
       });
       
       navigate('/screening');

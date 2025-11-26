@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useTest } from '../context/TestContext';
+import { useTest, type AnalysisData } from '../context/TestContext';
 import { Award, BookOpen, Brain, Lightbulb, Sparkles, BarChart3, TrendingUp } from 'lucide-react';
 
 const Results: React.FC = () => {
@@ -17,7 +17,7 @@ const Results: React.FC = () => {
   const storybookResults = testResults.storybook;
   const wordDetectiveResults = testResults.wordDetective;
   
-  const hasResults = letterMatchResults && storybookResults && wordDetectiveResults;
+  const hasResults = letterMatchResults && storybookResults; // word detective is optional until test 3
   
   const translations = {
     english: {
@@ -540,7 +540,13 @@ const Results: React.FC = () => {
             </div>
             
             {/* AI Analysis Summary Section */}
-            {storybookResults?.aiAnalysis && Object.keys(storybookResults.aiAnalysis).length > 0 && (
+            {(() => {
+              const ai = storybookResults?.aiAnalysis || {};
+              const aiRounds = Object.values(ai);
+              
+              if (aiRounds.length === 0) return null;
+              
+              return (
               <div className="bg-gradient-to-r from-purple-50 to-purple-100 rounded-xl shadow-sm p-6 border-2 border-purple-200/30 animate-fade-in" style={{ animationDelay: '0.55s' }}>
                 <h2 className="text-lg font-semibold mb-4 font-dyslexic text-[#2B2D42] flex items-center" data-testid="ai-analysis-title">
                   <Brain className="mr-2 h-5 w-5 text-purple-600" />
@@ -555,13 +561,14 @@ const Results: React.FC = () => {
                     { key: 'phonologicalCue', label: 'Sound-based', icon: '🔊' },
                     { key: 'omissions', label: 'Omissions', icon: '⏭️' }
                   ].map(cue => {
-                    const cueKey = cue.key as keyof typeof storybookResults.aiAnalysis[number];
-                    const analyses = Object.values(storybookResults.aiAnalysis) as any[];
-                    const avgScore = analyses.length > 0
-                      ? analyses.reduce((sum: number, analysis: any) => {
-                          const value = analysis[cueKey];
-                          return sum + (typeof value === 'object' && value?.score ? value.score : 0);
-                        }, 0) / analyses.length
+                    const avgScore = aiRounds.length > 0
+                      ? aiRounds.reduce((sum, round) => {
+                          // Handle both direct AnalysisData and nested { data: AnalysisData } structures
+                          const analysis = (round as any)?.data?.analysis || (round as any)?.data || round || {};
+                          const value = analysis[cue.key] ?? {};
+                          const score = typeof value === 'object' && value !== null ? (value as any)?.score ?? 0 : 0;
+                          return sum + score;
+                        }, 0) / aiRounds.length
                       : 0;
                     
                     const scoreColor = avgScore < 0.3 ? 'text-green-600' : avgScore < 0.6 ? 'text-yellow-600' : 'text-orange-600';
@@ -581,13 +588,21 @@ const Results: React.FC = () => {
                 {/* Combined Analysis Summary */}
                 <div className="bg-white rounded-lg p-5 mb-4">
                   {(() => {
-                    const analyses = Object.values(storybookResults.aiAnalysis) as any[];
-                    if (analyses.length === 0) return null;
+                    if (aiRounds.length === 0) return null;
                     
-                    const avgSequencing = analyses.reduce((sum, a) => sum + (a.sequencing?.score || 0), 0) / analyses.length;
-                    const avgVisualConfusion = analyses.reduce((sum, a) => sum + (a.visualConfusion?.score || 0), 0) / analyses.length;
-                    const avgPhonological = analyses.reduce((sum, a) => sum + (a.phonologicalCue?.score || 0), 0) / analyses.length;
-                    const avgOmissions = analyses.reduce((sum, a) => sum + (a.omissions?.score || 0), 0) / analyses.length;
+                    const getAverage = (key: string) => {
+                      return aiRounds.reduce((sum, round) => {
+                        // Handle both direct AnalysisData and nested { data: AnalysisData } structures
+                        const analysis = (round as any)?.data?.analysis || (round as any)?.data || round || {};
+                        const value = analysis[key] ?? {};
+                        return sum + (typeof value === 'object' && value !== null ? (value as any)?.score ?? 0 : 0);
+                      }, 0) / aiRounds.length;
+                    };
+                    
+                    const avgSequencing = getAverage('sequencing');
+                    const avgVisualConfusion = getAverage('visualConfusion');
+                    const avgPhonological = getAverage('phonologicalCue');
+                    const avgOmissions = getAverage('omissions');
                     
                     // Determine key insights
                     const keyFindings = [];
@@ -655,7 +670,8 @@ const Results: React.FC = () => {
                   })()}
                 </div>
               </div>
-            )}
+              );
+            })()}
             
             <div className="bg-gradient-to-r from-orange-50 to-orange-100 rounded-xl shadow-sm p-6 border-2 border-orange-200/30 animate-fade-in" style={{ animationDelay: '0.6s' }}>
               <h2 className="text-xl font-semibold mb-4 font-dyslexic text-[#2B2D42]" data-testid="recommendations-title">{content.recommendations}</h2>
