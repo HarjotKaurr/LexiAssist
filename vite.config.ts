@@ -2,7 +2,9 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 
-export default defineConfig(() => ({
+// https://vitejs.dev/config/
+export default defineConfig(({ mode }) => ({
+  base: mode === 'production' ? '/' : '/',
   server: {
     host: "0.0.0.0",
     port: 5000,
@@ -13,9 +15,7 @@ export default defineConfig(() => ({
   },
   plugins: [
     react({
-      jsxImportSource: 'react',
-      // Add this to ensure proper JSX runtime handling
-      jsxRuntime: 'automatic',
+      jsxImportSource: 'react'
     }),
   ],
   resolve: {
@@ -23,7 +23,15 @@ export default defineConfig(() => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  // Add this to ensure proper handling of JSX runtime
+  define: {
+    'process.env': {}
+  },
+  optimizeDeps: {
+    esbuildOptions: {
+      // Enable JSX in .js files
+      loader: { '.js': 'jsx' },
+    },
+  },
   esbuild: {
     jsx: 'automatic',
   },
