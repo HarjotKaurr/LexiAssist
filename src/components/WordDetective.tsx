@@ -1,4 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import axios from 'axios';
+
+// Use environment-provided backend URL in production, fallback to localhost for local dev
+axios.defaults.baseURL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+// Ensure axios sends cookies (HttpOnly session) to backend
+axios.defaults.withCredentials = true;
 import { useTest } from '../context/TestContext';
 import { Button } from './ui/button';
 import { ArrowLeft } from 'lucide-react';
@@ -20,6 +26,8 @@ const WordDetective: React.FC = () => {
   const [score, setScore] = useState(0);
   const [startTime] = useState(Date.now());
   const [isFinished, setIsFinished] = useState(false);
+  // persistent test session id (reused for generate + analyze + submit)
+  const sessionIdRef = useRef<string>(`wd-${Date.now()}-${Math.random().toString(36).slice(2,8)}`);
 
   const translations = {
     english: {
@@ -75,7 +83,8 @@ const WordDetective: React.FC = () => {
         completeTest('wordDetective', {
           score: nextScore,
           totalQuestions: wordPairs.length,
-          timeSpent
+          timeSpent,
+          sessionId: sessionIdRef.current
         });
         navigate('/results');
       }, 2000);

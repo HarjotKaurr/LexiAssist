@@ -43,7 +43,7 @@ const Screening: React.FC = () => {
         storybook: {
           title: "Storybook Challenge",
           description: "Interactive stories that help improve reading comprehension and engagement.",
-          duration: "3 minutes"
+          duration: "5 minutes"
         },
         wordDetective: {
           title: "Word Detective Challenge",

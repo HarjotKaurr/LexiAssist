@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useTest } from '../context/TestContext';
-import { Award, BookOpen, Brain, Lightbulb, Sparkles } from 'lucide-react';
+import { useTest, type AnalysisData } from '../context/TestContext';
+import { Award, BookOpen, Brain, Lightbulb, Sparkles, BarChart3, TrendingUp } from 'lucide-react';
 
 const Results: React.FC = () => {
   const { testResults, resetTests, preferredLanguage } = useTest();
@@ -17,7 +17,7 @@ const Results: React.FC = () => {
   const storybookResults = testResults.storybook;
   const wordDetectiveResults = testResults.wordDetective;
   
-  const hasResults = letterMatchResults && storybookResults && wordDetectiveResults;
+  const hasResults = letterMatchResults && storybookResults; // word detective is optional until test 3
   
   const translations = {
     english: {
@@ -397,6 +397,60 @@ const Results: React.FC = () => {
                   </div>
                 </div>
               </div>
+              
+              {/* Strengths vs Challenges Visualization */}
+              <div className="mt-6">
+                <h3 className="text-lg font-medium mb-4 font-dyslexic" data-testid="profile-chart-title">Performance Profile</h3>
+                <div className="bg-white rounded-lg p-6 space-y-4">
+                  {/* Letter Matching */}
+                  {letterMatchResults && (
+                    <div>
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-sm font-medium text-[#2B2D42]">Letter Recognition</span>
+                        <span className="text-sm font-bold text-[#6C63FF]">{Math.round((letterMatchResults.correctAnswers / letterMatchResults.totalQuestions) * 100)}%</span>
+                      </div>
+                      <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                        <div 
+                          className="h-full bg-gradient-to-r from-green-400 to-blue-500 rounded-full transition-all duration-500"
+                          style={{ width: `${(letterMatchResults.correctAnswers / letterMatchResults.totalQuestions) * 100}%` }}
+                        />
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Story Comprehension */}
+                  {storybookResults && (
+                    <div>
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-sm font-medium text-[#2B2D42]">Story Sequencing</span>
+                        <span className="text-sm font-bold text-[#6C63FF]">{Math.round(((storybookResults.round1Score + storybookResults.round2Score + storybookResults.round3Score) / 9) * 100)}%</span>
+                      </div>
+                      <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                        <div 
+                          className="h-full bg-gradient-to-r from-orange-400 to-red-500 rounded-full transition-all duration-500"
+                          style={{ width: `${((storybookResults.round1Score + storybookResults.round2Score + storybookResults.round3Score) / 9) * 100}%` }}
+                        />
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Word Detection */}
+                  {wordDetectiveResults && (
+                    <div>
+                      <div className="flex justify-between items-center mb-2">
+                        <span className="text-sm font-medium text-[#2B2D42]">Word Recognition</span>
+                        <span className="text-sm font-bold text-[#6C63FF]">{Math.round((wordDetectiveResults.score / wordDetectiveResults.totalQuestions) * 100)}%</span>
+                      </div>
+                      <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                        <div 
+                          className="h-full bg-gradient-to-r from-purple-400 to-pink-500 rounded-full transition-all duration-500"
+                          style={{ width: `${(wordDetectiveResults.score / wordDetectiveResults.totalQuestions) * 100}%` }}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -484,6 +538,140 @@ const Results: React.FC = () => {
                 </div>
               </div>
             </div>
+            
+            {/* AI Analysis Summary Section */}
+            {(() => {
+              const ai = storybookResults?.aiAnalysis || {};
+              const aiRounds = Object.values(ai);
+              
+              if (aiRounds.length === 0) return null;
+              
+              return (
+              <div className="bg-gradient-to-r from-purple-50 to-purple-100 rounded-xl shadow-sm p-6 border-2 border-purple-200/30 animate-fade-in" style={{ animationDelay: '0.55s' }}>
+                <h2 className="text-lg font-semibold mb-4 font-dyslexic text-[#2B2D42] flex items-center" data-testid="ai-analysis-title">
+                  <Brain className="mr-2 h-5 w-5 text-purple-600" />
+                  Our Analysis of Your Reading Comprehension (Rounds 4 & 5)
+                </h2>
+                
+                {/* Cues Visualization */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+                  {[
+                    { key: 'sequencing', label: 'Sequencing', icon: '📋' },
+                    { key: 'visualConfusion', label: 'Visual Confusion', icon: '👁️' },
+                    { key: 'phonologicalCue', label: 'Sound-based', icon: '🔊' },
+                    { key: 'omissions', label: 'Omissions', icon: '⏭️' }
+                  ].map(cue => {
+                    const avgScore = aiRounds.length > 0
+                      ? aiRounds.reduce((sum, round) => {
+                          // Handle both direct AnalysisData and nested { data: AnalysisData } structures
+                          const analysis = (round as any)?.data?.analysis || (round as any)?.data || round || {};
+                          const value = analysis[cue.key] ?? {};
+                          const score = typeof value === 'object' && value !== null ? (value as any)?.score ?? 0 : 0;
+                          return sum + score;
+                        }, 0) / aiRounds.length
+                      : 0;
+                    
+                    const scoreColor = avgScore < 0.3 ? 'text-green-600' : avgScore < 0.6 ? 'text-yellow-600' : 'text-orange-600';
+                    
+                    return (
+                      <div key={cue.key} className="bg-white rounded-lg p-3 text-center">
+                        <div className="text-2xl mb-2">{cue.icon}</div>
+                        <div className="text-xs font-medium text-[#2B2D42] mb-1">{cue.label}</div>
+                        <div className={`text-lg font-bold ${scoreColor}`}>
+                          {Math.round(avgScore * 100)}%
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                
+                {/* Combined Analysis Summary */}
+                <div className="bg-white rounded-lg p-5 mb-4">
+                  {(() => {
+                    if (aiRounds.length === 0) return null;
+                    
+                    const getAverage = (key: string) => {
+                      return aiRounds.reduce((sum, round) => {
+                        // Handle both direct AnalysisData and nested { data: AnalysisData } structures
+                        const analysis = (round as any)?.data?.analysis || (round as any)?.data || round || {};
+                        const value = analysis[key] ?? {};
+                        return sum + (typeof value === 'object' && value !== null ? (value as any)?.score ?? 0 : 0);
+                      }, 0) / aiRounds.length;
+                    };
+                    
+                    const avgSequencing = getAverage('sequencing');
+                    const avgVisualConfusion = getAverage('visualConfusion');
+                    const avgPhonological = getAverage('phonologicalCue');
+                    const avgOmissions = getAverage('omissions');
+                    
+                    // Determine key insights
+                    const keyFindings = [];
+                    if (avgSequencing < 0.5) keyFindings.push('difficulty with story sequencing and temporal ordering');
+                    if (avgVisualConfusion > 0.6) keyFindings.push('visual confusion with similar-looking letters (b/d, p/q, n/u)');
+                    if (avgPhonological > 0.6) keyFindings.push('reliance on sound patterns rather than visual form');
+                    if (avgOmissions > 0.5) keyFindings.push('occasional skipping of key story elements');
+                    
+                    return (
+                      <div className="space-y-3">
+                        <p className="text-sm text-[#555770] leading-relaxed">
+                          {keyFindings.length > 0 ? (
+                            <>
+                              <span className="font-semibold text-[#2B2D42]">Key Observations:</span>
+                              <br />
+                              Based on both reading passages, we noticed: <span className="italic">{keyFindings.join(', ')}</span>.
+                            </>
+                          ) : (
+                            <>
+                              <span className="font-semibold text-[#2B2D42]">Overall:</span>
+                              <br />
+                              Your reading comprehension is solid across the assessed areas. Continue practicing to strengthen any areas below 70%.
+                            </>
+                          )}
+                        </p>
+                        
+                        {/* Steps to Improvement */}
+                        <div className="mt-4 pt-4 border-t border-purple-100">
+                          <h4 className="text-sm font-semibold text-[#6C63FF] mb-2">Steps to Improvement:</h4>
+                          <ul className="space-y-2 text-sm text-[#555770]">
+                            {avgSequencing < 0.5 && (
+                              <li className="flex items-start">
+                                <span className="mr-2">→</span>
+                                <span><span className="font-medium">Practice sequencing:</span> Read stories and retell them in order. Use timeline activities with pictures.</span>
+                              </li>
+                            )}
+                            {avgVisualConfusion > 0.6 && (
+                              <li className="flex items-start">
+                                <span className="mr-2">→</span>
+                                <span><span className="font-medium">Letter differentiation:</span> Use multi-sensory activities to distinguish similar letters (trace, write, compare shapes).</span>
+                              </li>
+                            )}
+                            {avgPhonological > 0.6 && (
+                              <li className="flex items-start">
+                                <span className="mr-2">→</span>
+                                <span><span className="font-medium">Visual focus:</span> Practice matching words by sight, not just sound. Use sight word lists and flashcards.</span>
+                              </li>
+                            )}
+                            {avgOmissions > 0.5 && (
+                              <li className="flex items-start">
+                                <span className="mr-2">→</span>
+                                <span><span className="font-medium">Careful reading:</span> Practice reading with a finger tracking to ensure no words are skipped.</span>
+                              </li>
+                            )}
+                            {keyFindings.length === 0 && (
+                              <li className="flex items-start">
+                                <span className="mr-2">→</span>
+                                <span><span className="font-medium">Keep practicing:</span> Maintain consistent reading practice to solidify your skills.</span>
+                              </li>
+                            )}
+                          </ul>
+                        </div>
+                      </div>
+                    );
+                  })()}
+                </div>
+              </div>
+              );
+            })()}
             
             <div className="bg-gradient-to-r from-orange-50 to-orange-100 rounded-xl shadow-sm p-6 border-2 border-orange-200/30 animate-fade-in" style={{ animationDelay: '0.6s' }}>
               <h2 className="text-xl font-semibold mb-4 font-dyslexic text-[#2B2D42]" data-testid="recommendations-title">{content.recommendations}</h2>

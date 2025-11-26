@@ -3,6 +3,15 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 export type SupportedLanguage = 'english' | 'hindi' | 'tamil';
 export type TestType = 'letterMatch' | 'storybook' | 'wordDetective';
 
+export interface AnalysisData {
+  sequencing: { score: number; note: string };
+  omissions: { score: number; note: string };
+  visualConfusion: { score: number; note: string };
+  phonologicalCue: { score: number; note: string };
+  recommendedFollowUps: string[];
+  confidence: number;
+}
+
 interface TestResults {
   letterMatch?: {
     correctAnswers: number;
@@ -15,6 +24,9 @@ interface TestResults {
     round3Score: number;
     pickedDistractor: boolean;
     timeSpent: number;
+    aiAnalysis?: Record<number, AnalysisData>;
+    round4UserOrder?: number[];
+    round5UserOrder?: number[];
   };
   wordDetective?: {
     score: number;
