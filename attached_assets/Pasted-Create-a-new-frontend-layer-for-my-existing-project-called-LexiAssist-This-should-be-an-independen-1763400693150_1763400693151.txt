@@ -1,0 +1,189 @@
+Create a new frontend layer for my existing project called LexiAssist.
+ This should be an independent entry point that sits in front of the current app.
+ Do not overwrite or replace any part of my existing project.
+ Build this as a new set of routes and components that only handle onboarding.
+ After onboarding is done, redirect users into my existing LexiAssist app unchanged.
+Use the same styling, fonts, color scheme, and general design language as my current project. Reuse any global CSS variables or Tailwind config that already exists.
+
+Task Overview
+Build a new standalone landing and registration experience with these parts:
+Landing page for visitors who are not logged in
+
+
+Sign In page
+
+
+Multi-page Sign Up flow with separate screens
+
+
+After successful login or signup, redirect to my current LexiAssist app homepage or dashboard
+
+
+This is an addition, not a replacement.
+
+1. Landing Page
+A new landing page that appears only when the user is not logged in.
+Include:
+Logo and simple navbar (About, Contact, Sign In, Sign Up)
+
+
+A hero section explaining LexiAssist briefly
+
+
+Buttons for Sign In and Sign Up
+
+
+Visual style must match my existing project
+
+
+Fully responsive
+
+
+This page must not interfere with the routes or components of my main project. Treat it as an entry gate.
+
+2. Sign In Page
+Email and password
+
+
+Clean error handling
+
+
+Redirect to main LexiAssist app after successful login
+
+
+Simple link to the Sign Up flow
+
+
+Keep all visuals consistent with my current UI.
+
+3. Multi-page Registration Flow
+Build a five page registration sequence where each section is a separate route or page.
+Each page must have:
+Progress indicator
+
+
+Back and Next buttons
+
+
+Good spacing and readability
+
+
+Validation
+
+
+Same styling and layout principles as the rest of my app
+
+
+Pages to include:
+PAGE 1 — Parent Information
+Fields:
+Parent Name
+
+
+Relationship to Child (Mother / Father / Guardian)
+
+
+Preferred Email ID
+
+
+Mobile Number (optional)
+
+
+Preferred Communication Language (English / Hindi / Others)
+
+
+
+PAGE 2 — Child’s Basic Profile
+Fields:
+Child’s Name
+
+
+Child’s Age
+
+
+Class/Grade
+
+
+Primary Language Spoken at Home
+
+
+Languages the Child Can Read/Write (Checkbox options)
+
+
+
+PAGE 3 — Learning Background Questions
+Use dropdowns/radios:
+Struggling with reading or writing
+ (Yes / No / Not Sure)
+
+
+Letter mix-ups like b/d, p/q, m/w
+ (Often / Sometimes / Rarely / Never)
+
+
+How the child feels about reading
+ (Enjoys / Neutral / Avoids)
+
+
+Teacher mentioned learning difficulties
+ (Yes / No)
+
+
+Difficulty remembering spellings
+ (Yes / No / Not Sure)
+
+
+Prefers listening over reading
+ (Yes / No)
+
+
+
+PAGE 4 — Extra Questions
+Fields:
+Since when have the problems been observed (short text)
+
+
+Areas where problems lie (checkboxes or sub-questions)
+
+
+“Anything you want us to know about your child?” (optional long text)
+
+
+
+PAGE 5 — Consent
+Fields:
+Permission to analyze gameplay data for personalized learning
+ (Yes / No)
+
+
+Final button: Submit Registration
+
+
+4. After Registration
+After submitting the last step:
+Show a confirmation page
+
+
+Then redirect to the existing LexiAssist app
+ Make sure the handoff is clean and does not break my current routing.
+
+
+
+Technical Requirements
+Use React + Tailwind or the same stack my project already uses
+
+
+Use React Router for the new multi-page flow
+
+
+Do not rename or modify existing routes
+
+
+Place all onboarding components inside a new folder, for example:
+ src/onboarding or src/auth
+
+
+Use placeholder handlers for now since no backend is connected
+
+
+Preserve my existing design system: typography, colors, spacing, inputs, button styles
