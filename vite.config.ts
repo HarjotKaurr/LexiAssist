@@ -14,9 +14,7 @@ export default defineConfig(({ mode }) => ({
     },
   },
   plugins: [
-    react({
-      jsxImportSource: 'react'
-    }),
+    react(),
   ],
   resolve: {
     alias: {
